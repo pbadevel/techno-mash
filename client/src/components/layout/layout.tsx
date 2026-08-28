@@ -1,20 +1,22 @@
 import type { ReactNode } from 'react'
 import { Link } from '@tanstack/react-router'
 import { auth } from '@/lib/auth'
+import { useTheme } from '@/hooks/use-theme'
 
 const nav = [
   { to: '/', label: 'Главная' },
   { to: '/about', label: 'О предприятии' },
   { to: '/products', label: 'Продукция' },
   { to: '/services', label: 'Услуги' },
-  { to: '/news', label: 'Новости' },
+  { to: '/all-news', label: 'Новости' },
 ]
 
 export function Layout({ children }: { children: ReactNode }) {
   const role = auth.getRole()
+  const { theme, toggle } = useTheme()
 
   return (
-    <div className="min-h-screen bg-space text-ink">
+    <div className="min-h-screen bg-bg text-ink">
       <header className="absolute inset-x-0 top-0 z-20 backdrop-blur-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
           <Link
@@ -36,13 +38,27 @@ export function Layout({ children }: { children: ReactNode }) {
               </Link>
             ))}
             {role === 'admin' && (
-              <Link to="/admin" activeProps={{ className: 'text-accent' }} className="transition hover:text-ink">
+              <Link
+                to="/admin"
+                activeProps={{ className: 'text-accent' }}
+                className="transition hover:text-ink"
+              >
                 Админ
               </Link>
             )}
           </nav>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={toggle}
+              aria-label={
+                theme === 'dark' ? 'Переключить на светлую тему' : 'Переключить на тёмную тему'
+              }
+              className="border border-line px-3 py-2 font-mono text-xs uppercase tracking-[0.15em] transition hover:border-accent hover:text-accent"
+            >
+              {theme === 'dark' ? '☀' : '☾'}
+            </button>
+
             {role === 'guest' ? (
               <Link
                 to="/login"
@@ -76,7 +92,9 @@ export function Layout({ children }: { children: ReactNode }) {
             <ul className="mt-4 space-y-2 text-sm text-muted">
               {nav.map((n) => (
                 <li key={n.to}>
-                  <Link to={n.to} className="transition hover:text-accent">{n.label}</Link>
+                  <Link to={n.to} className="transition hover:text-accent">
+                    {n.label}
+                  </Link>
                 </li>
               ))}
             </ul>

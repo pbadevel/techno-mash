@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { NewsList } from '@/components/features/news-list'
 import { usePageTitle } from '@/hooks/use-page-title'
 
-export const Route = createFileRoute('/news')({ component: NewsPage })
+export const Route = createFileRoute('/all-news')({ component: NewsPage })
 function NewsPage() {
   usePageTitle('Новости')
   return (

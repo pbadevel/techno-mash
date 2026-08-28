@@ -1,26 +1,54 @@
 @import "tailwindcss" source("../");
 @import "tw-animate-css";
 
-@theme {
-  /* Тёмная палитра в духе keldysh-space.ru */
-  --color-space: #060a14;              /* глубокий космос — фон страницы */
-  --color-panel: #0b1220;              /* панели и полосы */
-  --color-line: rgb(255 255 255 / 0.08); /* волосковые линии */
-  --color-ink: #f2f5fa;                /* основной текст */
-  --color-muted: #8a94a8;              /* вторичный текст */
-  --color-accent: #ff6b1a;             /* технологичный оранжевый */
+/* Светлая тема (по умолчанию) */
+:root {
+  --color-bg: #ffffff;
+  --color-surface: #f4f6f8;
+  --color-line: rgb(0 0 0 / 0.08);
+  --color-ink: #0b1c3e;
+  --color-muted: #64748b;
+  --color-accent: #e65100;
+  --color-space: #f4f6f8;
+  --color-panel: #ffffff;
+}
 
+/* Тёмная тема */
+:root.dark {
+  --color-bg: #060a14;
+  --color-surface: #0b1220;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-ink: #f2f5fa;
+  --color-muted: #8a94a8;
+  --color-accent: #ff6b1a;
+  --color-space: #060a14;
+  --color-panel: #0b1220;
+}
+
+@theme {
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-line: var(--color-line);
+  --color-ink: var(--color-ink);
+  --color-muted: var(--color-muted);
+  --color-accent: var(--color-accent);
+  --color-space: var(--color-space);
+  --color-panel: var(--color-panel);
+  
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 }
 
 @layer base {
   html { scroll-behavior: smooth; }
-  body { @apply bg-space font-sans text-ink antialiased; margin: 0; }
+  body {
+    @apply bg-bg font-sans text-ink antialiased;
+    margin: 0;
+  }
   ::selection { background: var(--color-accent); color: #fff; }
 }
 
-/* Звёздная пыль — чистый CSS, без картинок */
+/* Звёздная пыль — только в тёмной теме */
 .stars {
   background-image:
     radial-gradient(1px 1px at 25% 35%, rgb(255 255 255 / 0.5) 50%, transparent 50%),
@@ -29,9 +57,28 @@
     radial-gradient(1px 1px at 10% 80%, rgb(255 255 255 / 0.25) 50%, transparent 50%),
     radial-gradient(1px 1px at 90% 70%, rgb(255 255 255 / 0.2) 50%, transparent 50%);
   background-size: 260px 260px;
+  display: none;
 }
 
-/* «Свечение двигателя» сверху герой-блока */
+:root.dark .stars {
+  display: block;
+}
+
+/* Свечение двигателя — только в тёмной теме */
 .glow {
   background: radial-gradient(60% 45% at 50% 0%, rgb(255 107 26 / 0.14), transparent 70%);
+  display: none;
+}
+
+:root.dark .glow {
+  display: block;
+}
+
+/* В светлой теме — мягкий градиент вместо космоса */
+:root:not(.dark) .hero-gradient {
+  background: linear-gradient(180deg, #e0e7ff 0%, #f8fafc 100%);
+}
+
+:root.dark .hero-gradient {
+  background: transparent;
 }

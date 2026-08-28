@@ -38,17 +38,17 @@ function HomePage() {
 
   return (
     <>
-      <section className="relative overflow-hidden">
+      <section className="hero-gradient relative overflow-hidden">
         <div className="stars absolute inset-0" aria-hidden />
         <div className="glow absolute inset-0" aria-hidden />
-
+        
         <div className="relative mx-auto max-w-6xl px-6 pb-28 pt-40">
           <FadeIn>
             <p className="font-mono text-xs uppercase tracking-[0.4em] text-accent">С 1938 года · Роскосмос</p>
           </FadeIn>
           <FadeIn delay={100}>
             <h1 className="mt-8 max-w-4xl text-4xl font-bold uppercase leading-[1.05] tracking-tight md:text-6xl">
-              Головное предприятие по технологическому обеспечению РКП
+              Главное предприятие по технологическому обеспечению РКП
             </h1>
           </FadeIn>
           <FadeIn delay={200}>
@@ -125,7 +125,7 @@ function HomePage() {
           <FadeIn>
             <div className="flex items-end justify-between">
               <h2 className="font-mono text-xs uppercase tracking-[0.4em] text-muted">Новости</h2>
-              <Link to="/news" className="font-mono text-xs uppercase tracking-[0.2em] text-accent hover:underline">
+              <Link to="/all-news" className="font-mono text-xs uppercase tracking-[0.2em] text-accent hover:underline">
                 Больше новостей →
               </Link>
             </div>
@@ -142,7 +142,7 @@ function HomePage() {
             <p className="font-mono text-xs uppercase tracking-[0.4em] text-muted">О предприятии</p>
             <div>
               <p className="max-w-3xl text-2xl font-semibold leading-snug md:text-3xl">
-                Многопрофильное головное предприятие ракетно-космической отрасли — от получения
+                Многопрофильное главное предприятие ракетно-космической отрасли — от получения
                 заготовок до сборки и функциональных испытаний.
               </p>
               <p className="mt-6 max-w-2xl leading-relaxed text-muted">

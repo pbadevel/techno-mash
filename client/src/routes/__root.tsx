@@ -15,7 +15,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: 'utf-8' },
-      // WCAG 1.4.4: убираем user-scalable=no — блокировка зума запрещает пользователям масштабировать текст
       { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
       ...seo({ title: 'Роскосмос', description: 'Роскосмос' }),
     ],
@@ -40,6 +39,23 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
     <html lang="ru">
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('tmnpo:theme');
+                  if (!theme) {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  }
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  }
+                } catch (e) {}
+              })()
+            `,
+          }}
+        />
       </head>
       <body id="root">
         {children}

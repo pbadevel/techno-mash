@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
-import { newsStore, type NewsItem } from '@/lib/news-store'
-import { auth } from '@/lib/auth'
+import { newsStore, type NewsItem } from '@/lib/news-store';
 
 export function NewsList({ admin = false }: { admin?: boolean }) {
   const qc = useQueryClient()
@@ -32,7 +31,11 @@ export function NewsList({ admin = false }: { admin?: boolean }) {
         <li key={n.id}>
           <div className="group grid gap-2 py-6 md:grid-cols-[160px_1fr_auto] md:items-baseline">
             <time className="font-mono text-xs uppercase tracking-[0.15em] text-muted">{n.date}</time>
-            <Link to="/news" className="text-lg font-medium transition group-hover:text-accent">
+            <Link
+              to="/news/$id"
+              params={{ id: n.id }}
+              className="text-lg font-medium transition group-hover:text-accent"
+            >
               {n.title}
             </Link>
             {admin && (

@@ -10,27 +10,28 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AllNewsRouteImport } from './routes/all-news'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as NewsRouteImport } from './routes/news'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
 import { Route as AppAdminRouteImport } from './routes/_app.admin'
+import { Route as NewsIdRouteImport } from './routes/news/$id'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AllNewsRoute = AllNewsRouteImport.update({
+  id: '/all-news',
+  path: '/all-news',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NewsRoute = NewsRouteImport.update({
-  id: '/news',
-  path: '/news',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsRoute = ProductsRouteImport.update({
@@ -58,79 +59,91 @@ const AppAdminRoute = AppAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsIdRoute = NewsIdRouteImport.update({
+  id: '/news/$id',
+  path: '/news/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
+  '/all-news': typeof AllNewsRoute
   '/login': typeof LoginRoute
-  '/news': typeof NewsRoute
   '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
   '/services': typeof ServicesRoute
   '/admin': typeof AppAdminRoute
+  '/news/$id': typeof NewsIdRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
+  '/all-news': typeof AllNewsRoute
   '/login': typeof LoginRoute
-  '/news': typeof NewsRoute
   '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
   '/services': typeof ServicesRoute
   '/admin': typeof AppAdminRoute
+  '/news/$id': typeof NewsIdRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/about': typeof AboutRoute
+  '/all-news': typeof AllNewsRoute
   '/login': typeof LoginRoute
-  '/news': typeof NewsRoute
   '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
   '/services': typeof ServicesRoute
   '/_app/admin': typeof AppAdminRoute
+  '/news/$id': typeof NewsIdRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/about'
+    | '/all-news'
     | '/login'
-    | '/news'
     | '/products'
     | '/profile'
     | '/services'
     | '/admin'
+    | '/news/$id'
     | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
+    | '/all-news'
     | '/login'
-    | '/news'
     | '/products'
     | '/profile'
     | '/services'
     | '/admin'
+    | '/news/$id'
     | '/'
   id:
     | '__root__'
     | '/about'
+    | '/all-news'
     | '/login'
-    | '/news'
     | '/products'
     | '/profile'
     | '/services'
     | '/_app/admin'
+    | '/news/$id'
     | '/_app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
+  AllNewsRoute: typeof AllNewsRoute
   LoginRoute: typeof LoginRoute
-  NewsRoute: typeof NewsRoute
   ProductsRoute: typeof ProductsRoute
   ProfileRoute: typeof ProfileRoute
   ServicesRoute: typeof ServicesRoute
   AppAdminRoute: typeof AppAdminRoute
+  NewsIdRoute: typeof NewsIdRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
@@ -143,18 +156,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/all-news': {
+      id: '/all-news'
+      path: '/all-news'
+      fullPath: '/all-news'
+      preLoaderRoute: typeof AllNewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/news': {
-      id: '/news'
-      path: '/news'
-      fullPath: '/news'
-      preLoaderRoute: typeof NewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products': {
@@ -192,17 +205,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/news/$id': {
+      id: '/news/$id'
+      path: '/news/$id'
+      fullPath: '/news/$id'
+      preLoaderRoute: typeof NewsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
+  AllNewsRoute: AllNewsRoute,
   LoginRoute: LoginRoute,
-  NewsRoute: NewsRoute,
   ProductsRoute: ProductsRoute,
   ProfileRoute: ProfileRoute,
   ServicesRoute: ServicesRoute,
   AppAdminRoute: AppAdminRoute,
+  NewsIdRoute: NewsIdRoute,
   AppIndexRoute: AppIndexRoute,
 }
 export const routeTree = rootRouteImport
