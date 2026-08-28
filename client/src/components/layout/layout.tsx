@@ -2,6 +2,8 @@ import type { ReactNode } from 'react'
 import { Link } from '@tanstack/react-router'
 import { auth } from '@/lib/auth'
 import { useTheme } from '@/hooks/use-theme'
+import { useScrolled } from '@/hooks/use-scrolled'
+import { cn } from '@/lib/utils'
 
 const nav = [
   { to: '/', label: 'Главная' },
@@ -14,10 +16,18 @@ const nav = [
 export function Layout({ children }: { children: ReactNode }) {
   const role = auth.getRole()
   const { theme, toggle } = useTheme()
+  const scrolled = useScrolled(12)
+
 
   return (
     <div className="min-h-screen bg-bg text-ink">
-      <header className="absolute inset-x-0 top-0 z-20 backdrop-blur-sm">
+      <header
+          className={cn(
+            'fixed inset-x-0 top-0 z-50 border-b backdrop-blur-md',
+            'transition-[background-color,border-color] duration-300',
+            scrolled ? 'border-line bg-bg/80' : 'border-transparent bg-bg/50',
+          )}
+        >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
           <Link
             to="/"

@@ -45,6 +45,9 @@
     @apply bg-bg font-sans text-ink antialiased;
     margin: 0;
   }
+  section[id] {
+    scroll-margin-top: 96px; /* высота шапки + отступ */
+  }
   ::selection { background: var(--color-accent); color: #fff; }
 }
 
@@ -82,3 +85,4 @@
 :root.dark .hero-gradient {
   background: transparent;
 }
+
