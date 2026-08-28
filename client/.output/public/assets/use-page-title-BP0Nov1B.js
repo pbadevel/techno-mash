@@ -1,1 +1,0 @@
-import{i as e,n as t}from"./jsx-runtime-CU3EbJiN.js";var n=e(t());function r(e){(0,n.useEffect)(()=>{document.title=`${e} — НПО «Техномаш»`},[e])}export{r as t};
