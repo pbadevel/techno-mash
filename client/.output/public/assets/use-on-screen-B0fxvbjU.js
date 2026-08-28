@@ -1,0 +1,1 @@
+import{i as e,n as t}from"./jsx-runtime-CU3EbJiN.js";var n=e(t());function r(e=.15){let t=(0,n.useRef)(null),[r,i]=(0,n.useState)(!1);return(0,n.useEffect)(()=>{let n=t.current;if(!n)return;let r=new IntersectionObserver(([e])=>{e.isIntersecting&&(i(!0),r.disconnect())},{threshold:e});return r.observe(n),()=>r.disconnect()},[e]),{ref:t,visible:r}}export{r as t};
