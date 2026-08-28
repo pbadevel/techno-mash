@@ -1,0 +1,7 @@
+{
+  "template": "react",
+  "router": "file-based",
+  "query": true,
+  "packageManager": "bun",
+  "areas": ["public", "_app", "_admin"]
+}
