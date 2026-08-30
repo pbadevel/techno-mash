@@ -2,12 +2,15 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { NewsList } from '@/components/features/news-list'
 import { useOnScreen } from '@/hooks/use-on-screen'
 import { usePageTitle } from '@/hooks/use-page-title'
+import { useEffect, useState } from 'react'
+// import satelliteVideo from '@/assets/satellite.mp4'
+
 
 const directions = [
-  { num: '01', to: '/services', title: 'Технологический аудит', text: 'Комплексный аудит предприятий РКП, в том числе зарубежных' },
-  { num: '02', to: '/services', title: 'Расчёты и моделирование', text: 'Инженерные расчёты, цифровые двойники изделий РКТ' },
-  { num: '03', to: '/services', title: 'Неразрушающий контроль', text: 'Лаборатория НК, диагностика станков и механизмов' },
-  { num: '04', to: '/products', title: 'Опытное производство', text: 'Специальные станки и оборудование под задачи заказчика' },
+  { num: '01', to: '/services', title: 'Аудит', text: 'Комплексный аудит предприятий РКП, в том числе зарубежных' },
+  { num: '02', to: '/services', title: 'Проектирование', text: 'Инженерные расчёты, цифровые двойники изделий РКТ' },
+  { num: '03', to: '/services', title: 'Поставка оборудования', text: 'Лаборатория НК, диагностика станков и механизмов' },
+  { num: '04', to: '/products', title: 'Техническое обслуживание', text: 'Специальные станки и оборудование под задачи заказчика' },
   { num: '05', to: '/products', title: 'Аддитивные технологии', text: 'Перспективные технологии и оборудование РКП' },
 ]
 
@@ -15,7 +18,7 @@ const stats = [
   { value: '1938', label: 'год основания' },
   { value: '88', label: 'лет истории' },
   { value: '500+', label: 'технологий в каталоге' },
-  { value: '05', label: 'направлений деятельности' },
+  { value: '2500+', label: 'Патентов и изобретений' },
 ]
 
 export const Route = createFileRoute('/_app/')({ component: HomePage })
@@ -34,45 +37,80 @@ function FadeIn({ children, delay = 0, className = '' }: { children: React.React
 }
 
 function HomePage() {
+  const [reducedMotion, setReducedMotion] = useState(false)
+  
   usePageTitle('Главная')
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   return (
     <>
       <section className="hero-gradient relative overflow-hidden">
-        <div className="stars absolute inset-0" aria-hidden />
-        <div className="glow absolute inset-0" aria-hidden />
-        
-        <div className="relative mx-auto max-w-6xl px-6 pb-28 pt-40">
-          <FadeIn>
-            <p className="font-mono text-xs uppercase tracking-[0.4em] text-accent">С 1938 года · Роскосмос</p>
-          </FadeIn>
-          <FadeIn delay={100}>
-            <h1 className="mt-8 max-w-4xl text-4xl font-bold uppercase leading-[1.05] tracking-tight md:text-6xl">
-              Главное предприятие по технологическому обеспечению РКП
-            </h1>
-          </FadeIn>
-          <FadeIn delay={200}>
-            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted">
-              АО «НПО «Техномаш» им. С. А. Афанасьева — разработка, производство и испытания
-              высокотехнологичных изделий ракетно-космической техники.
-            </p>
-          </FadeIn>
-          <FadeIn delay={300}>
-            <div className="mt-12 flex flex-wrap gap-4">
-              <Link
-                to="/services"
-                className="bg-accent px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.25em] text-white transition hover:bg-[#ff8142]"
-              >
-                Наша деятельность
-              </Link>
-              <Link
-                to="/about"
-                className="border border-line px-7 py-3 font-mono text-xs uppercase tracking-[0.25em] transition hover:border-accent hover:text-accent"
-              >
-                О предприятии
-              </Link>
-            </div>
-          </FadeIn>
+        {/* ── Фоновое видео ── */}
+        <div className="absolute inset-0 z-0" aria-hidden>
+          <video
+            src="/satelline.webm"
+            autoPlay={!reducedMotion}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          {/* затемнение поверх видео для читаемости текста */}
+          <div className="absolute inset-0 bg-space/70 dark:bg-space/50" />
+          {/* лёгкий градиент снизу для «посадки» контента */}
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-bg to-transparent" />
+        </div>
+
+        {/* звёзды и свечение — тоже фон, но ниже видео */}
+        <div className="stars absolute inset-0 z-[1]" aria-hidden />
+        <div className="glow absolute inset-0 z-[1]" aria-hidden />
+
+        {/* ── Контент поверх всего ── */}
+        <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 pb-24 pt-36 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+          <div>
+            <FadeIn>
+              <p className="font-mono text-xs uppercase tracking-[0.4em] text-accent">
+                С 1938 года · Роскосмос
+              </p>
+            </FadeIn>
+            <FadeIn delay={100}>
+              <h1 className="mt-8 text-4xl font-bold uppercase leading-[1.05] tracking-tight md:text-5xl xl:text-6xl">
+                Мы придумали стандарт ракетно-космической отрасли
+              </h1>
+            </FadeIn>
+            <FadeIn delay={200}>
+              <p className="mt-8 max-w-xl text-lg leading-relaxed text-ink/90 dark:text-muted">
+                АО «НПО «Техномаш» им. С. А. Афанасьева — разработка, производство
+                и испытания высокотехнологичных изделий ракетно-космической техники.
+              </p>
+            </FadeIn>
+            <FadeIn delay={300}>
+              <div className="mt-10 flex flex-wrap gap-4">
+                <Link
+                  to="/services"
+                  className="bg-accent px-7 py-3 font-mono text-xs font-bold uppercase tracking-[0.25em] text-white transition hover:bg-[#ff8142]"
+                >
+                  Наша деятельность
+                </Link>
+                <Link
+                  to="/about"
+                  className="border border-line px-7 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition hover:border-accent hover:text-accent dark:text-ink"
+                >
+                  О предприятии
+                </Link>
+              </div>
+            </FadeIn>
+          </div>
+
+          {/* правая колонка теперь пустая — спутник сам является визуальным якорем */}
+          <div aria-hidden />
         </div>
       </section>
 

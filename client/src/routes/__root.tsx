@@ -44,10 +44,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('tmnpo:theme');
-                  if (!theme) {
-                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  }
+                  var theme = localStorage.getItem('tmnpo:theme') || 'dark';
                   if (theme === 'dark') {
                     document.documentElement.classList.add('dark');
                   }

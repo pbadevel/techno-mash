@@ -1,7 +1,7 @@
 @import "tailwindcss" source("../");
 @import "tw-animate-css";
 
-/* Светлая тема (по умолчанию) */
+/* Светлая тема */
 :root {
   --color-bg: #ffffff;
   --color-surface: #f4f6f8;
@@ -25,7 +25,7 @@
   --color-panel: #0b1220;
 }
 
-@theme {
+@theme inline {
   --color-bg: var(--color-bg);
   --color-surface: var(--color-surface);
   --color-line: var(--color-line);
@@ -34,55 +34,91 @@
   --color-accent: var(--color-accent);
   --color-space: var(--color-space);
   --color-panel: var(--color-panel);
-  
+
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 }
 
 @layer base {
   html { scroll-behavior: smooth; }
-  body {
-    @apply bg-bg font-sans text-ink antialiased;
-    margin: 0;
-  }
-  section[id] {
-    scroll-margin-top: 96px; /* высота шапки + отступ */
-  }
+  body { @apply bg-bg font-sans text-ink antialiased; margin: 0; }
   ::selection { background: var(--color-accent); color: #fff; }
+  section[id] { scroll-margin-top: 96px; }
 }
 
-/* Звёздная пыль — только в тёмной теме */
+/* ─── ЗВЁЗДЫ ──────────────────────────────────────────────────
+   Три слоя: мелкая пыль + средние + крупные "яркие" звезды.
+   У каждого слоя своя скорость мерцания и размер тайла. */
+
+.stars,
+.stars-bright {
+  display: none;
+  pointer-events: none;
+}
+
+/* Мелкая звёздная пыль — плотное облако */
 .stars {
   background-image:
-    radial-gradient(1px 1px at 25% 35%, rgb(255 255 255 / 0.5) 50%, transparent 50%),
-    radial-gradient(1px 1px at 75% 15%, rgb(255 255 255 / 0.35) 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 55% 65%, rgb(255 255 255 / 0.3) 50%, transparent 50%),
-    radial-gradient(1px 1px at 10% 80%, rgb(255 255 255 / 0.25) 50%, transparent 50%),
-    radial-gradient(1px 1px at 90% 70%, rgb(255 255 255 / 0.2) 50%, transparent 50%);
-  background-size: 260px 260px;
-  display: none;
+    radial-gradient(1px 1px at 12% 22%, rgba(255,255,255,0.85) 50%, transparent 50%),
+    radial-gradient(1px 1px at 34% 78%, rgba(255,255,255,0.75) 50%, transparent 50%),
+    radial-gradient(1px 1px at 56% 44%, rgba(255,255,255,0.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 78% 12%, rgba(255,255,255,0.8) 50%, transparent 50%),
+    radial-gradient(1px 1px at 90% 66%, rgba(255,255,255,0.65) 50%, transparent 50%),
+    radial-gradient(1px 1px at 22% 90%, rgba(255,255,255,0.6) 50%, transparent 50%),
+    radial-gradient(1px 1px at 67% 8%,  rgba(255,255,255,0.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 45% 55%, rgba(255,255,255,0.55) 50%, transparent 50%);
+  background-size: 180px 180px;
+  opacity: 0.8;
 }
 
-:root.dark .stars {
+/* Крупные яркие звёзды — с анимацией мерцания */
+.stars-bright {
+  background-image:
+    radial-gradient(2px 2px at 18% 35%, #ffffff 50%, transparent 50%),
+    radial-gradient(2.5px 2.5px at 72% 28%, #ffefd4 50%, transparent 50%),
+    radial-gradient(2px 2px at 45% 72%, #cfe3ff 50%, transparent 50%),
+    radial-gradient(3px 3px at 88% 85%, #ffffff 50%, transparent 50%),
+    radial-gradient(2px 2px at 8% 58%, #ffefd4 50%, transparent 50%);
+  background-size: 360px 360px;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.9;  }
+}
+
+/* Активируем слои только в тёмной теме */
+:root.dark .stars,
+:root.dark .stars-bright {
   display: block;
 }
 
 /* Свечение двигателя — только в тёмной теме */
 .glow {
-  background: radial-gradient(60% 45% at 50% 0%, rgb(255 107 26 / 0.14), transparent 70%);
+  background: radial-gradient(60% 45% at 50% 0%, rgb(255 107 26 / 0.22), transparent 70%);
   display: none;
 }
+:root.dark .glow { display: block; }
 
-:root.dark .glow {
-  display: block;
-}
-
-/* В светлой теме — мягкий градиент вместо космоса */
+/* Светлый градиент героя — только в светлой теме */
 :root:not(.dark) .hero-gradient {
   background: linear-gradient(180deg, #e0e7ff 0%, #f8fafc 100%);
 }
+:root.dark .hero-gradient { background: transparent; }
 
-:root.dark .hero-gradient {
-  background: transparent;
+/* Уважение prefers-reduced-motion: убираем мерцание */
+@media (prefers-reduced-motion: reduce) {
+  .stars-bright { animation: none; opacity: 0.7; }
 }
 
+/* Тёмная тема (приоритет): чёрный фон видео «исчезает» */
+:root.dark .video-alpha {
+  mix-blend-mode: screen;
+}
+
+/* Светлая тема: screen на белом фоне сделал бы видео невидимым,
+   а чёрная подложка mp4 выглядела бы коробкой — просто скрываем */
+:root:not(.dark) .video-alpha {
+  display: none;
+}
