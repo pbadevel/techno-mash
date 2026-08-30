@@ -60,7 +60,7 @@ function HomePage() {
             loop
             playsInline
             preload="metadata"
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-contain p-6 opacity-80 md:object-cover md:p-0 md:opacity-100"
           />
           {/* затемнение поверх видео для читаемости текста */}
           <div className="absolute inset-0 bg-space/70 dark:bg-space/50" />
